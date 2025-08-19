@@ -1,0 +1,35 @@
+** sch_path: /home/andersonhsieh/repos/projects/amp/schem/amp.sch
+**.subckt amp
+XM2 net3 Vi_p net1 GND sky130_fd_pr__nfet_01v8 L=0.15 W=1 nf=1 ad=0.29 as=0.29 pd=2.58 ps=2.58 nrd=0.29 nrs=0.29 sa=0 sb=0 sd=0
++ mult=1 m=1
+XM3 net2 net2 VDD VDD sky130_fd_pr__pfet_01v8 L=0.15 W=1 nf=1 ad=0.29 as=0.29 pd=2.58 ps=2.58 nrd=0.29 nrs=0.29 sa=0 sb=0 sd=0
++ mult=1 m=1
+XM1 net2 Vi_n net1 GND sky130_fd_pr__nfet_01v8 L=0.15 W=1 nf=1 ad=0.29 as=0.29 pd=2.58 ps=2.58 nrd=0.29 nrs=0.29 sa=0 sb=0 sd=0
++ mult=1 m=1
+XM4 net3 net3 VDD VDD sky130_fd_pr__pfet_01v8 L=0.15 W=1 nf=1 ad=0.29 as=0.29 pd=2.58 ps=2.58 nrd=0.29 nrs=0.29 sa=0 sb=0 sd=0
++ mult=1 m=1
+XM5 net1 net4 GND GND sky130_fd_pr__nfet_01v8 L=0.15 W=1 nf=1 ad=0.29 as=0.29 pd=2.58 ps=2.58 nrd=0.29 nrs=0.29 sa=0 sb=0 sd=0
++ mult=1 m=1
+V1 net4 GND 3
+Vcm Vi_p net5 3
+Vin net5 GND SIN(0 0.5 10e12 0 0 0)
+Vcm1 net5 Vi_n 3
+V2 VDD GND 3
+**** begin user architecture code
+
+.control
+    tran 1n 3n
+    save all vi_p vi_n
+    write amp.raw
+.endc
+
+
+
+** opencircuitdesign pdks install
+.lib /usr/local/share/pdk/sky130A/libs.tech/combined/sky130.lib.spice tt
+
+**** end user architecture code
+**.ends
+.GLOBAL VDD
+.GLOBAL GND
+.end
