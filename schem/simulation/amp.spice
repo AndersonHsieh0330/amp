@@ -1,25 +1,30 @@
 ** sch_path: /home/andersonhsieh/repos/projects/amp/schem/amp.sch
 **.subckt amp
-XM2 net3 Vi_p net1 GND sky130_fd_pr__nfet_01v8 L=0.15 W=1 nf=1 ad=0.29 as=0.29 pd=2.58 ps=2.58 nrd=0.29 nrs=0.29 sa=0 sb=0 sd=0
+XM2 vout_p vin_p net5 GND sky130_fd_pr__nfet_01v8 L=0.15 W=1 nf=1 ad=0.29 as=0.29 pd=2.58 ps=2.58 nrd=0.29 nrs=0.29 sa=0 sb=0 sd=0
 + mult=1 m=1
-XM3 net2 net2 VDD VDD sky130_fd_pr__pfet_01v8 L=0.15 W=1 nf=1 ad=0.29 as=0.29 pd=2.58 ps=2.58 nrd=0.29 nrs=0.29 sa=0 sb=0 sd=0
+XM3 vout_n vout_n VDD VDD sky130_fd_pr__pfet_01v8 L=0.15 W=1 nf=1 ad=0.29 as=0.29 pd=2.58 ps=2.58 nrd=0.29 nrs=0.29 sa=0 sb=0 sd=0
 + mult=1 m=1
-XM1 net2 Vi_n net1 GND sky130_fd_pr__nfet_01v8 L=0.15 W=1 nf=1 ad=0.29 as=0.29 pd=2.58 ps=2.58 nrd=0.29 nrs=0.29 sa=0 sb=0 sd=0
+XM1 vout_n vin_n net5 GND sky130_fd_pr__nfet_01v8 L=0.15 W=1 nf=1 ad=0.29 as=0.29 pd=2.58 ps=2.58 nrd=0.29 nrs=0.29 sa=0 sb=0 sd=0
 + mult=1 m=1
-XM4 net3 net3 VDD VDD sky130_fd_pr__pfet_01v8 L=0.15 W=1 nf=1 ad=0.29 as=0.29 pd=2.58 ps=2.58 nrd=0.29 nrs=0.29 sa=0 sb=0 sd=0
+XM4 vout_p vout_p VDD VDD sky130_fd_pr__pfet_01v8 L=0.15 W=1 nf=1 ad=0.29 as=0.29 pd=2.58 ps=2.58 nrd=0.29 nrs=0.29 sa=0 sb=0 sd=0
 + mult=1 m=1
-XM5 net1 net4 GND GND sky130_fd_pr__nfet_01v8 L=0.15 W=1 nf=1 ad=0.29 as=0.29 pd=2.58 ps=2.58 nrd=0.29 nrs=0.29 sa=0 sb=0 sd=0
+XM5 net5 net1 GND GND sky130_fd_pr__nfet_01v8 L=0.15 W=1 nf=1 ad=0.29 as=0.29 pd=2.58 ps=2.58 nrd=0.29 nrs=0.29 sa=0 sb=0 sd=0
 + mult=1 m=1
-V1 net4 GND 3
-Vcm Vi_p net5 3
-Vin net5 GND SIN(0 0.5 10e12 0 0 0)
-Vcm1 net5 Vi_n 3
+V1 net1 GND 3
+Vcm net2 GND 1.5
 V2 VDD GND 3
+V_sin3 vin GND SIN (0 0.5 10e10 0 0 0)
+E1 vin_p net2 VOL=' '0.5*v(vin)' '
+E2 net2 vin_n VOL=' '0.5*v(vin)' '
 **** begin user architecture code
 
 .control
-    tran 1n 3n
-    save all vi_p vi_n
+    save all v(vin) @m.xm5.msky130_fd_pr__nfet_01v8[id]
+    +v(vin_p) v(vin_n) v(vout_p) v(vout_n) v(net5)
+    op
+    write op.raw
+    tran 1p 10n
+    save all v(vi_i) v(vi_p) v(vi_n)
     write amp.raw
 .endc
 
